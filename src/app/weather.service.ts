@@ -14,7 +14,7 @@ import { IForecastApiResult } from './components/interfaces/forecast-api-result'
   providedIn: 'root',
 })
 export class WeatherService {
-  private APIKey = '0af35db9fbe04b2536d369731b7a09e2';
+  private APIKey = 'key mandata in PVT';
   private geoAPIUrl = 'http://api.openweathermap.org/geo/1.0/direct';
   latitude!: number;
   longitude!: number;
