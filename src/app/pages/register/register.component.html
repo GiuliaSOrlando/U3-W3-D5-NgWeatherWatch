@@ -1,0 +1,33 @@
+<form>
+  <input
+    type="text"
+    class="form-control"
+    placeholder="Nome"
+    name="name"
+    [(ngModel)]="formData.name"
+  />
+  <input
+    type="text"
+    class="form-control"
+    placeholder="Cognome"
+    name="cognome"
+    [(ngModel)]="formData.surname"
+  />
+  <input
+    type="email"
+    class="form-control"
+    placeholder="Email"
+    name="email"
+    [(ngModel)]="formData.email"
+  />
+  <input
+    type="password"
+    class="form-control"
+    placeholder="Password"
+    name="password"
+    [(ngModel)]="formData.password"
+  />
+  <button (click)="signup()" class="btn btn-success">Registrati</button>
+</form>
+
+<a class="btn btn-secondary" routerLink="/auth">Indietro</a>

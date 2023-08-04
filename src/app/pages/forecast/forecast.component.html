@@ -1,0 +1,66 @@
+<div>
+  <input
+    class="bg-dark border border-0 rounded m-3 p-2"
+    type="text"
+    [(ngModel)]="searchQuery"
+    placeholder="Enter city name"
+  />
+  <button class="btn btn-outline-dark" (click)="searchWeather()">Search</button>
+</div>
+
+<div class="container mt-4 custom-container">
+  <div class="card p-4 mb-4 custom-card">
+    <h3 class="mb-3">Meteo Oggi</h3>
+    <div class="row align-items-center">
+      <div class="col-md-4">
+        <img
+          src="http://openweathermap.org/img/w/{{
+            apiData.weather[0].icon
+          }}.png"
+          alt=""
+        />
+      </div>
+      <div class="col-md-8">
+        <h4>{{ apiData.name }}</h4>
+        <p class="mb-1">{{ formattedDate }}</p>
+        <p class="mb-1">Meteo: {{ apiData.weather[0].description }}</p>
+        <p>Umidità: {{ apiData.main.humidity }}%</p>
+      </div>
+    </div>
+    <div class="weather-temperatures mt-4">
+      <p>
+        <i class="fas fa-temperature-high"></i> Max:
+        {{ apiData.main.temp_max }} °C
+      </p>
+      <p>
+        <i class="fas fa-temperature-low"></i> Min:
+        {{ apiData.main.temp_min }} °C
+      </p>
+    </div>
+  </div>
+
+  <h2 class="text-white">{{ forecastApiData.name }}</h2>
+  <div class="row">
+    <div
+      *ngFor="let forecastItem of forecastApiData.list"
+      class="col-lg-4 col-md-6 mb-4"
+    >
+      <div class="card shadow-sm custom-forecast-card">
+        <div class="card-body">
+          <p class="card-text mb-2">
+            Data/Ora:
+            <strong>{{
+              forecastItem.dt_txt | date : "MMM d, yyyy | h:mm a"
+            }}</strong>
+          </p>
+          <p class="card-text">Temperatura: {{ forecastItem.main.temp }}°C</p>
+          <p class="card-text">
+            Descrizione: {{ forecastItem.weather[0].description }}
+          </p>
+          <p class="card-text">Vento(m/s): {{ forecastItem.wind.speed }} m/s</p>
+          <p class="card-text">Umidità: {{ forecastItem.main.humidity }}%</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
