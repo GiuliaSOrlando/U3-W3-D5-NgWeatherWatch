@@ -66,7 +66,7 @@ export class ForecastComponent {
   getForecast() {
     this.weatherSVC.getWeatherForecast(this.lat, this.lon).subscribe(
       (data: IForecastApiResult) => {
-        this.forecastApiData = data; // Corrected variable name
+        this.forecastApiData = data;
         console.log(this.forecastApiData);
       },
       (error) => {
@@ -75,11 +75,13 @@ export class ForecastComponent {
     );
   }
 
+  // Formattazione della data (dt)
   formatDate(timestamp: number) {
     this.formattedDate = new Date(timestamp * 1000).toUTCString();
     console.log(this.formattedDate);
   }
 
+  //Fetch della data (dt)
   getWeatherDate() {
     this.weatherSVC.getWeatherDate(this.lat, this.lon).subscribe(
       (data) => {
@@ -90,11 +92,6 @@ export class ForecastComponent {
         console.error('Error fetching weather date:', error);
       }
     );
-  }
-
-  formatIcon(timestamp: number) {
-    this.formattedDate = new Date(timestamp * 1000).toUTCString();
-    console.log(this.formattedDate);
   }
 
   //Default all'apertura della pagina --> TODO: usare Geolocation API
