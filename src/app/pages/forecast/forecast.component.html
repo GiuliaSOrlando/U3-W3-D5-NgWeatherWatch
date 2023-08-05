@@ -1,6 +1,7 @@
 <div>
   <input
     class="bg-dark border border-0 rounded m-3 p-2"
+    data-bs-theme="dark"
     type="text"
     [(ngModel)]="searchQuery"
     placeholder="Enter city name"
@@ -53,7 +54,9 @@
               forecastItem.dt_txt | date : "MMM d, yyyy | h:mm a"
             }}</strong>
           </p>
-          <p class="card-text">Temperatura: {{ forecastItem.main.temp }}°C</p>
+          <p class="card-text">
+            Temperatura: {{ forecastItem.main.temp.toFixed(0) }}°C
+          </p>
           <p class="card-text">
             Descrizione: {{ forecastItem.weather[0].description }}
           </p>
