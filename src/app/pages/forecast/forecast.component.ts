@@ -21,7 +21,7 @@ export class ForecastComponent {
 
   constructor(private weatherSVC: WeatherService) {}
 
-  //Ottengo longitudine e latidutide
+  //Get longitude and latitude using openweather api
   getLonLat(city: string): void {
     this.weatherSVC.getLonLatbyCity(city).subscribe(
       (data) => {
@@ -39,7 +39,7 @@ export class ForecastComponent {
     );
   }
 
-  //Metodo per la searchbar
+  //Method for the searchbar
   searchWeather() {
     const city = this.searchQuery.trim();
     if (city) {
@@ -49,7 +49,7 @@ export class ForecastComponent {
     }
   }
 
-  //Previsioni per la giornata corrente
+  //Forecast for the current day
   getWeather() {
     this.weatherSVC.getTodayWeather(this.lat, this.lon).subscribe(
       (data) => {
@@ -62,7 +62,7 @@ export class ForecastComponent {
     );
   }
 
-  //Previsioni per i giorni a venire
+  //Forecast for the next five days
   getForecast() {
     this.weatherSVC.getWeatherForecast(this.lat, this.lon).subscribe(
       (data: IForecastApiResult) => {
@@ -75,13 +75,13 @@ export class ForecastComponent {
     );
   }
 
-  // Formattazione della data (dt)
+  // Date formatting (dt)
   formatDate(timestamp: number) {
     this.formattedDate = new Date(timestamp * 1000).toUTCString();
     console.log(this.formattedDate);
   }
 
-  //Fetch della data (dt)
+  //Date fetching (dt)
   getWeatherDate() {
     this.weatherSVC.getWeatherDate(this.lat, this.lon).subscribe(
       (data) => {
@@ -94,8 +94,17 @@ export class ForecastComponent {
     );
   }
 
-  //Default all'apertura della pagina --> TODO: usare Geolocation API
+  //Weather info using geolocation api
   ngOnInit() {
-    this.getLonLat('Helsinki');
+    navigator.geolocation.getCurrentPosition((position) => {
+      let navigatorlatitude = position.coords.latitude;
+      let navigatorlongitude = position.coords.longitude;
+
+      this.weatherSVC
+        .getTodayWeather(navigatorlatitude, navigatorlongitude)
+        .subscribe((data) => {
+          this.apiData = data;
+        });
+    });
   }
 }

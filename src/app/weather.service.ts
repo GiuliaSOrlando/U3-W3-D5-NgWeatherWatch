@@ -21,6 +21,7 @@ export class WeatherService {
   weatherDate!: IWeatherDate;
   constructor(private http: HttpClient, private router: Router) {}
 
+  // Get latitude and longitude by city name
   getGeoData(
     cityName: string,
     stateCode: string,
@@ -31,6 +32,7 @@ export class WeatherService {
     return this.http.get<any>(geoAPIUrl);
   }
 
+  // Get weather forecast (5 days) from openweather api (the url contains the word "forecast")
   getWeatherForecast(
     latitude: number,
     longitude: number
@@ -39,6 +41,7 @@ export class WeatherService {
     return this.http.get<IForecastApiResult>(forecastAPIUrl);
   }
 
+  // Get weather information for the current day, from openweather api (the url contains the word "weather")
   getTodayWeather(latitude: number, longitude: number): Observable<IApiResult> {
     const todayWAPIUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${this.APIKey}&units=metric&lang=it`;
     return this.http.get<IApiResult>(todayWAPIUrl).pipe(
@@ -48,6 +51,7 @@ export class WeatherService {
     );
   }
 
+  // Separately fetch the date information contained in the "weather" openweather api (dt)
   getWeatherDate(
     latitude: number,
     longitude: number
@@ -56,10 +60,14 @@ export class WeatherService {
     return this.http.get<IWeatherDate>(APIUrl);
   }
 
+  // Get longitude and latitude by city name, using the openweather api
   getLonLatbyCity(city: string): Observable<any> {
     const geoAPIUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${this.APIKey}&units=metric`;
     return this.http.get<any>(geoAPIUrl);
   }
+
+  ///////////////////////////////////////////////////////////////////////
+  // Functions and variables for authentication
 
   private jwtHelper: JwtHelperService = new JwtHelperService();
   userApiUrl: string = 'http://localhost:3000/';
@@ -71,12 +79,12 @@ export class WeatherService {
   user$ = this.authSubject.asObservable();
   isLoggedIn$ = this.user$.pipe(map((user) => !!user));
 
-  //Funzioni per la registrazione
+  //Functions for the sign up
   signUp(data: IRegister) {
     return this.http.post<IAccessData>(this.signUpUrl, data);
   }
 
-  //Funzioni per il login
+  //Functions for the login
   //Login
   login(data: ILogin) {
     return this.http.post<IAccessData>(this.loginUrl, data).pipe(
