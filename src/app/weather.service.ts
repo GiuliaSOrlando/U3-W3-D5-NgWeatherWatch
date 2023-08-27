@@ -14,12 +14,21 @@ import { IForecastApiResult } from './components/interfaces/forecast-api-result'
   providedIn: 'root',
 })
 export class WeatherService {
-  private APIKey = 'key mandata in PVT';
+  private APIKey = 'key is secret';
   private geoAPIUrl = 'http://api.openweathermap.org/geo/1.0/direct';
   latitude!: number;
   longitude!: number;
   weatherDate!: IWeatherDate;
-  constructor(private http: HttpClient, private router: Router) {}
+
+  private favouriteCities: string[] = [];
+
+  constructor(private http: HttpClient, private router: Router) {
+    const storedFavourites = localStorage.getItem('favouriteCities');
+    if (storedFavourites) {
+      this.favouriteCities = JSON.parse(storedFavourites);
+      console.log('Retrieved favourite cities:', this.favouriteCities);
+    }
+  }
 
   // Get latitude and longitude by city name
   getGeoData(
@@ -117,5 +126,32 @@ export class WeatherService {
     this.autoLogoutTimer = setTimeout(() => {
       this.logout();
     }, tokenExpMS);
+  }
+
+  // Functions related to favourites
+  getFavouriteCities(): string[] {
+    return this.favouriteCities;
+  }
+
+  addFavouriteCity(city: string) {
+    if (!this.favouriteCities.includes(city)) {
+      this.favouriteCities.push(city);
+      this.saveFavouriteCities();
+    }
+  }
+
+  removeFavouriteCity(city: string): void {
+    const index = this.favouriteCities.indexOf(city);
+    if (index !== -1) {
+      this.favouriteCities.splice(index, 1);
+      this.saveFavouriteCities();
+    }
+  }
+
+  private saveFavouriteCities(): void {
+    localStorage.setItem(
+      'favouriteCities',
+      JSON.stringify(this.favouriteCities)
+    );
   }
 }

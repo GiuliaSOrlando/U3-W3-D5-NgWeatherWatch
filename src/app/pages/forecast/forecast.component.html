@@ -5,6 +5,7 @@
     type="text"
     [(ngModel)]="searchQuery"
     placeholder="Enter city name"
+    (keyup.enter)="searchWeather()"
   />
   <button class="btn btn-outline-dark" (click)="searchWeather()">Search</button>
 </div>
@@ -26,6 +27,20 @@
         <p class="mb-1">{{ formattedDate }}</p>
         <p class="mb-1">Meteo: {{ apiData.weather[0].description }}</p>
         <p>Umidità: {{ apiData.main.humidity }}%</p>
+        <button
+          class="btn btn-sm btn-outline-primary"
+          (click)="
+            isFavourite(apiData.name)
+              ? removeFromFavourites(apiData.name)
+              : addToFavourites(apiData.name)
+          "
+        >
+          {{
+            isFavourite(apiData.name)
+              ? "Remove from Favorites"
+              : "Add to Favorites"
+          }}
+        </button>
       </div>
     </div>
     <div class="weather-temperatures mt-4">
@@ -62,8 +77,37 @@
           </p>
           <p class="card-text">Vento(m/s): {{ forecastItem.wind.speed }} m/s</p>
           <p class="card-text">Umidità: {{ forecastItem.main.humidity }}%</p>
+          <button
+            class="btn btn-sm btn-outline-primary"
+            (click)="
+              isFavourite(apiData.name)
+                ? removeFromFavourites(apiData.name)
+                : addToFavourites(apiData.name)
+            "
+          >
+            {{
+              isFavourite(apiData.name)
+                ? "Remove from Favorites"
+                : "Add to Favorites"
+            }}
+          </button>
         </div>
       </div>
     </div>
   </div>
+</div>
+
+<div class="mt-4">
+  <h3>Your Favorite Cities</h3>
+  <ul>
+    <li *ngFor="let favoriteCity of favouriteCities">
+      {{ favoriteCity }}
+      <button
+        class="btn btn-sm btn-outline-danger"
+        (click)="removeFromFavourites(favoriteCity)"
+      >
+        Remove
+      </button>
+    </li>
+  </ul>
 </div>

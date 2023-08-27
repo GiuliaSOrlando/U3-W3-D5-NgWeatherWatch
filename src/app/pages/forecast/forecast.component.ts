@@ -18,6 +18,7 @@ export class ForecastComponent {
   forecastApiData!: IForecastApiResult;
   weatherDate: IWeatherDate | undefined;
   formattedDate: string | undefined;
+  favouriteCities: string[] = [];
 
   constructor(private weatherSVC: WeatherService) {}
 
@@ -106,5 +107,20 @@ export class ForecastComponent {
           this.apiData = data;
         });
     });
+  }
+
+  //Functions related to favourites
+  addToFavourites(city: string): void {
+    this.weatherSVC.addFavouriteCity(city);
+    this.favouriteCities.push(city);
+  }
+
+  removeFromFavourites(city: string): void {
+    this.weatherSVC.removeFavouriteCity(city);
+    this.favouriteCities = this.favouriteCities.filter((c) => c !== city);
+  }
+
+  isFavourite(city: string): boolean {
+    return this.weatherSVC.getFavouriteCities().includes(city);
   }
 }
